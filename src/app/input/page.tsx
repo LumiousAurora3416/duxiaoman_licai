@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const incomeOptions = [
   { value: "below_5k", label: "5K 以下" },
@@ -18,150 +18,172 @@ const savingsOptions = [
   { value: "above_20k", label: "20K 以上" },
 ];
 
+type Step = "income" | "savings" | "goal" | "complete";
+
+const messages: Record<Step, { assistant: string }> = {
+  income: {
+    assistant: "先认识一下吧！\n你一个月大概赚多少？",
+  },
+  savings: {
+    assistant: "不错不错！\n那现在小金库里存了多少啦？",
+  },
+  goal: {
+    assistant: "最后一个问题——\n你存钱最想用来做什么？",
+  },
+  complete: {
+    assistant: "好嘞！让我帮你看看\n最适合你的理财计划...",
+  },
+};
+
 export default function InputPage() {
   const router = useRouter();
+  const [step, setStep] = useState<Step>("income");
   const [income, setIncome] = useState("");
   const [savings, setSavings] = useState("");
   const [goal, setGoal] = useState("");
 
-  const canSubmit = income && savings && goal.trim();
+  const selectIncome = (val: string) => {
+    setIncome(val);
+    setStep("savings");
+  };
 
-  const handleSubmit = () => {
-    if (!canSubmit) return;
+  const selectSavings = (val: string) => {
+    setSavings(val);
+    setStep("goal");
+  };
+
+  const submitGoal = () => {
+    if (!goal.trim()) return;
+    setStep("complete");
     const params = new URLSearchParams({ income, savings, goal: goal.trim() });
-    router.push(`/match?${params.toString()}`);
+    setTimeout(() => router.push(`/match?${params.toString()}`), 1500);
   };
 
   return (
-    <div className="flex flex-col gap-5">
-      <button
+    <div className="flex flex-col gap-6 py-4">
+      {/* back */}
+      <motion.button
         onClick={() => router.back()}
         className="flex items-center gap-1 text-sm text-[#a8a29e]"
+        whileTap={{ scale: 0.95 }}
       >
         ← 返回
-      </button>
+      </motion.button>
 
-      {/* header card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="paper-card p-5 text-center"
-      >
-        <div className="mb-2 flex items-center justify-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#fefce8]">
-            <span className="text-xl">🐶</span>
-          </div>
-          <span className="text-lg text-[#a8a29e]">+</span>
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#fefce8]">
-            <span className="text-xl">🦆</span>
-          </div>
-        </div>
-        <h1 className="text-xl font-extrabold text-[#292524]">先认识一下你</h1>
-        <p className="mt-1 text-xs text-[#57534e]">
-          让我了解你的情况，帮你找到
-          <span className="highlight-wavy font-extrabold text-[#292524]">
-            最适合
-          </span>
-          的理财计划
-        </p>
-      </motion.div>
+      {/* chat area */}
+      <div className="flex flex-col gap-5">
+        {/* assistant bubble */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="dialog-bubble p-5"
+          >
+            <div className="mb-2 flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#fefce8]">
+                <span className="text-base">🐶</span>
+              </div>
+              <span className="text-xs font-extrabold text-[#92400e]">
+                钱钱
+              </span>
+            </div>
+            <p className="text-sm leading-relaxed text-[#292524] whitespace-pre-line">
+              {messages[step].assistant}
+            </p>
+          </motion.div>
+        </AnimatePresence>
 
-      {/* income */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="space-y-2"
-      >
-        <label className="text-sm font-extrabold text-[#292524]">
-          你的月收入大概是多少？
-        </label>
-        <div className="grid grid-cols-2 gap-2">
-          {incomeOptions.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => setIncome(opt.value)}
-              className={`rounded-2xl border-2 px-4 py-3 text-sm font-bold transition-all active:scale-95 ${
-                income === opt.value
-                  ? "border-[#d97706] bg-[#fefce8] text-[#92400e] shadow-sm"
-                  : "border-[#e7dcc8] bg-white text-[#57534e] hover:border-[#fbbf24]"
-              }`}
+        {/* user response area */}
+        <AnimatePresence mode="wait">
+          {step === "income" && (
+            <motion.div
+              key="income"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="grid grid-cols-2 gap-2"
             >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </motion.div>
+              {incomeOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => selectIncome(opt.value)}
+                  className="rounded-2xl border-2 border-[#e7dcc8] bg-white px-4 py-4 text-sm font-bold text-[#57534e] transition-all active:scale-95 hover:border-[#fbbf24]"
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </motion.div>
+          )}
 
-      {/* savings */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="space-y-2"
-      >
-        <label className="text-sm font-extrabold text-[#292524]">
-          你目前有多少存款？
-        </label>
-        <div className="grid grid-cols-2 gap-2">
-          {savingsOptions.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => setSavings(opt.value)}
-              className={`rounded-2xl border-2 px-4 py-3 text-sm font-bold transition-all active:scale-95 ${
-                savings === opt.value
-                  ? "border-[#d97706] bg-[#fefce8] text-[#92400e] shadow-sm"
-                  : "border-[#e7dcc8] bg-white text-[#57534e] hover:border-[#fbbf24]"
-              }`}
+          {step === "savings" && (
+            <motion.div
+              key="savings"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="grid grid-cols-2 gap-2"
             >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </motion.div>
+              {savingsOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => selectSavings(opt.value)}
+                  className="rounded-2xl border-2 border-[#e7dcc8] bg-white px-4 py-4 text-sm font-bold text-[#57534e] transition-all active:scale-95 hover:border-[#fbbf24]"
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </motion.div>
+          )}
 
-      {/* goal */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="space-y-2"
-      >
-        <label className="text-sm font-extrabold text-[#292524]">
-          你的理财目标是什么？
-        </label>
-        <input
-          type="text"
-          value={goal}
-          onChange={(e) => setGoal(e.target.value)}
-          placeholder="比如：攒钱去日本旅行 / 存买房首付"
-          className="w-full rounded-2xl border-2 border-[#e7dcc8] bg-white px-4 py-3 text-sm text-[#292524] placeholder:text-[#a8a29e] outline-none transition-all focus:border-[#fbbf24] focus:ring-4 focus:ring-[#fef3c7]"
-        />
-      </motion.div>
+          {step === "goal" && (
+            <motion.div
+              key="goal"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col gap-2"
+            >
+              <input
+                type="text"
+                value={goal}
+                onChange={(e) => setGoal(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submitGoal()}
+                placeholder="比如：攒钱去日本旅行..."
+                className="w-full rounded-2xl border-2 border-[#e7dcc8] bg-white px-4 py-4 text-sm text-[#292524] placeholder:text-[#a8a29e] outline-none transition-all focus:border-[#fbbf24] focus:ring-4 focus:ring-[#fef3c7]"
+                autoFocus
+              />
+              <button
+                onClick={submitGoal}
+                disabled={!goal.trim()}
+                className={`rounded-2xl py-3.5 text-sm font-extrabold transition-all active:scale-95 ${
+                  goal.trim()
+                    ? "bg-[#92400e] text-white shadow-md"
+                    : "bg-[#e7e5e4] text-[#a8a29e] cursor-not-allowed"
+                }`}
+              >
+                好的，帮我看看 →
+              </button>
+            </motion.div>
+          )}
 
-      {/* submit */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="mt-1"
-      >
-        <button
-          onClick={handleSubmit}
-          disabled={!canSubmit}
-          className={`w-full rounded-full py-4 text-lg font-extrabold transition-all active:scale-95 ${
-            canSubmit
-              ? "bg-[#92400e] text-white shadow-lg shadow-[#d97706]/30 hover:bg-[#78350f]"
-              : "bg-[#e7e5e4] text-[#a8a29e] cursor-not-allowed"
-          }`}
-        >
-          看看我的鹅 🦆
-        </button>
-      </motion.div>
-
-      <p className="text-center text-[10px] text-[#a8a29e]">
-        理财有风险，投资需谨慎
-      </p>
+          {step === "complete" && (
+            <motion.div
+              key="complete"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center"
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="mx-auto mb-3 text-3xl"
+              >
+                🔍
+              </motion.div>
+              <p className="text-sm text-[#57534e]">正在分析你的情况...</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

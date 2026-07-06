@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import journeyDays from "@/data/journey";
+import { getJourneyDays, type PlanType } from "@/data/journey";
 import DayTimeline from "@/components/DayTimeline";
 
 function useStoredCompleted(): [number[], (days: number[]) => void] {
@@ -30,12 +30,13 @@ export default function JourneyContent() {
   const searchParams = useSearchParams();
   const [completed] = useStoredCompleted();
 
-  const plan = searchParams.get("plan") ?? "safe_goose";
+  const plan = (searchParams.get("plan") as PlanType) ?? "safe_goose";
   const amount = searchParams.get("amount") ?? "1,000 元";
   const egg = searchParams.get("egg") ?? "0.10 元";
 
-  const currentDay =
-    journeyDays.find((d) => !completed.includes(d.id))?.id ?? 7;
+  const days = useMemo(() => getJourneyDays(plan), [plan]);
+
+  const currentDay = days.find((d) => !completed.includes(d.id))?.id ?? 7;
 
   const handleDayClick = (dayId: number) => {
     const params = new URLSearchParams({ plan, amount, egg });
@@ -61,7 +62,6 @@ export default function JourneyContent() {
         </p>
       </motion.div>
 
-      {/* progress */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -70,13 +70,12 @@ export default function JourneyContent() {
       >
         <div className="mb-3 flex items-center justify-between">
           <span className="text-sm font-extrabold text-[#292524]">
-            🪺 鹅的成长进度
+            🪺 成长进度
           </span>
           <span className="rounded-full bg-[#fef3c7] px-3 py-1 text-xs font-extrabold text-[#92400e]">
             {Math.round((completed.length / 7) * 100)}%
           </span>
         </div>
-
         <div className="mb-3 h-4 w-full overflow-hidden rounded-full bg-[#fef3c7]">
           <motion.div
             className="h-full rounded-full bg-gradient-to-r from-[#fbbf24] to-[#d97706]"
@@ -84,16 +83,14 @@ export default function JourneyContent() {
             animate={{ width: `${(completed.length / 7) * 100}%` }}
           />
         </div>
-
         <div className="flex justify-between text-[11px] text-[#a8a29e]">
-          <span>🦆 鹅宝宝</span>
           <span>💰 存入 {amount}</span>
           <span>🥚 日收益 {egg}</span>
         </div>
       </motion.div>
 
       <DayTimeline
-        days={journeyDays}
+        days={days}
         currentDay={currentDay}
         completedDays={completed}
         onDayClick={handleDayClick}
