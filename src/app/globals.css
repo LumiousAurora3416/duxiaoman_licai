@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-paper: #f5efe0;
+  --color-card: #fffcf5;
+  --color-warm: #fbbf24;
+  --color-warm-dark: #d97706;
+  --color-warm-darker: #92400e;
+  --color-ink: #292524;
+  --color-ink-soft: #57534e;
+  --color-ink-muted: #a8a29e;
+  --color-ocean: #1e40af;
+  --color-ocean-light: #dbeafe;
+  --color-growth: #10b981;
+  --color-growth-light: #d1fae5;
+  --font-hand: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+}
+
+body {
+  background: #d6c9b3;
+  color: #292524;
+  font-family: var(--font-hand);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Hand-drawn highlight: wavy amber underline ── */
+.highlight-wavy {
+  position: relative;
+  display: inline-block;
+}
+.highlight-wavy::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: url("data:image/svg+xml,%3Csvg width='100' height='8' viewBox='0 0 100 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 4 Q12.5 0 25 4 T50 4 T75 4 T100 4' stroke='%23fbbf24' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+    repeat-x bottom;
+  background-size: 50px 8px;
+  opacity: 0.8;
+}
+
+/* ── Paper-texture card ── */
+.paper-card {
+  background: #fffcf5;
+  border: 2.5px solid #e7dcc8;
+  border-radius: 28px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  position: relative;
+}
+
+/* ── Decorative dot corner ── */
+.paper-card::before {
+  content: "✦";
+  position: absolute;
+  top: -6px;
+  left: 16px;
+  font-size: 10px;
+  color: #d97706;
+  opacity: 0.5;
+}
+
+/* ── Gradient hero card ── */
+.hero-card {
+  border-radius: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Cloud dialog bubble ── */
+.dialog-bubble {
+  background: #fefce8;
+  border: 2.5px solid #fde68a;
+  border-radius: 24px;
+  position: relative;
+}
+.dialog-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 32px;
+  width: 16px;
+  height: 16px;
+  background: #fefce8;
+  border-right: 2.5px solid #fde68a;
+  border-bottom: 2.5px solid #fde68a;
+  transform: rotate(45deg);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+/* ── Ocean blue tag ── */
+.ocean-tag {
+  background: #dbeafe;
+  color: #1e40af;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ── Step circle ── */
+.step-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.step-circle--incomplete {
+  border: 2.5px solid #d6d3d1;
+  color: #a8a29e;
+}
+.step-circle--complete {
+  background: #10b981;
+  color: white;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d6d3d1;
+  border-radius: 2px;
+}
