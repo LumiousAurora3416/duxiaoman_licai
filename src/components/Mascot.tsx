@@ -4,10 +4,10 @@ type MascotName = "wave" | "map" | "celebrate" | "goose";
 type Shape = "rounded" | "circle" | "plain";
 
 const sources: Record<MascotName, string> = {
-  wave: "/mascot/cat-wave.png",
-  map: "/mascot/cat-map.png",
-  celebrate: "/mascot/cat-celebrate.png",
-  goose: "/mascot/goose.png",
+  wave: "/mascot/cat-wave-v2.png",
+  map: "/mascot/cat-map-v2.png",
+  celebrate: "/mascot/cat-celebrate-v2.png",
+  goose: "/mascot/goose-v2.png",
 };
 
 const alts: Record<MascotName, string> = {

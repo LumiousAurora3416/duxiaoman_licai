@@ -15,9 +15,9 @@ interface Props {
   goal: string;
 }
 
-function calcDailyEgg(amountStr: string, yieldStr: string): string {
-  const num = parseFloat(amountStr.replace(/[^0-9.]/g, ""));
-  const y = parseFloat(yieldStr.replace(/[^0-9.]/g, ""));
+function calcDailyEgg(amountStr?: string, yieldStr?: string): string {
+  const num = parseFloat((amountStr ?? "").replace(/[^0-9.]/g, ""));
+  const y = parseFloat((yieldStr ?? "").replace(/[^0-9.]/g, ""));
   if (isNaN(num) || isNaN(y)) return "0.00 元";
   const daily = (num * y) / 100 / 365;
   return `${daily.toFixed(2)} 元`;
