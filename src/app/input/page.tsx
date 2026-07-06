@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import Mascot from "@/components/Mascot";
 
 const incomeOptions = [
   { value: "below_5k", label: "5K 以下" },
@@ -36,55 +37,53 @@ export default function InputPage() {
     <div className="flex flex-col gap-5">
       <button
         onClick={() => router.back()}
-        className="flex items-center gap-1 text-sm text-[#a8a29e]"
+        className="flex w-fit items-center gap-1 text-sm text-[#b0a08a]"
       >
         ← 返回
       </button>
 
-      {/* header card */}
+      {/* header cloud with map-reading mascot */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        className="paper-card p-5 text-center"
+        className="relative"
       >
-        <div className="mb-2 flex items-center justify-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#fefce8]">
-            <span className="text-xl">🐶</span>
-          </div>
-          <span className="text-lg text-[#a8a29e]">+</span>
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#fefce8]">
-            <span className="text-xl">🦆</span>
-          </div>
+        <div className="cloud px-5 py-5 pr-24">
+          <h1 className="font-hand text-2xl text-[#78350f]">先认识一下你</h1>
+          <p className="mt-2 text-xs leading-relaxed text-[#7c6a55]">
+            告诉我你的情况，帮你找到
+            <span className="hl font-bold text-[#78350f]">最适合</span>
+            的理财计划
+          </p>
         </div>
-        <h1 className="text-xl font-extrabold text-[#292524]">先认识一下你</h1>
-        <p className="mt-1 text-xs text-[#57534e]">
-          让我了解你的情况，帮你找到
-          <span className="highlight-wavy font-extrabold text-[#292524]">
-            最适合
-          </span>
-          的理财计划
-        </p>
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 3, repeat: Infinity }}
+          className="pointer-events-none absolute -right-1 -top-6"
+        >
+          <Mascot name="map" size={96} priority />
+        </motion.div>
       </motion.div>
 
       {/* income */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="space-y-2"
+        className="flex flex-col gap-2.5"
       >
-        <label className="text-sm font-extrabold text-[#292524]">
-          你的月收入大概是多少？
+        <label className="flex items-center gap-1.5 font-hand text-base text-[#78350f]">
+          <span className="text-lg">💰</span> 你的月收入大概是多少？
         </label>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2.5">
           {incomeOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setIncome(opt.value)}
               className={`rounded-2xl border-2 px-4 py-3 text-sm font-bold transition-all active:scale-95 ${
                 income === opt.value
-                  ? "border-[#d97706] bg-[#fefce8] text-[#92400e] shadow-sm"
-                  : "border-[#e7dcc8] bg-white text-[#57534e] hover:border-[#fbbf24]"
+                  ? "border-[#d97706] bg-[#fef3c7] text-[#92400e] shadow-sm"
+                  : "border-[#f3e2b8] bg-[#fffdf7] text-[#7c6a55] hover:border-[#fbbf24]"
               }`}
             >
               {opt.label}
@@ -95,23 +94,23 @@ export default function InputPage() {
 
       {/* savings */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="space-y-2"
+        className="flex flex-col gap-2.5"
       >
-        <label className="text-sm font-extrabold text-[#292524]">
-          你目前有多少存款？
+        <label className="flex items-center gap-1.5 font-hand text-base text-[#78350f]">
+          <span className="text-lg">🐷</span> 你目前有多少存款？
         </label>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2.5">
           {savingsOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setSavings(opt.value)}
               className={`rounded-2xl border-2 px-4 py-3 text-sm font-bold transition-all active:scale-95 ${
                 savings === opt.value
-                  ? "border-[#d97706] bg-[#fefce8] text-[#92400e] shadow-sm"
-                  : "border-[#e7dcc8] bg-white text-[#57534e] hover:border-[#fbbf24]"
+                  ? "border-[#d97706] bg-[#fef3c7] text-[#92400e] shadow-sm"
+                  : "border-[#f3e2b8] bg-[#fffdf7] text-[#7c6a55] hover:border-[#fbbf24]"
               }`}
             >
               {opt.label}
@@ -122,20 +121,20 @@ export default function InputPage() {
 
       {/* goal */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="space-y-2"
+        className="flex flex-col gap-2.5"
       >
-        <label className="text-sm font-extrabold text-[#292524]">
-          你的理财目标是什么？
+        <label className="flex items-center gap-1.5 font-hand text-base text-[#78350f]">
+          <span className="text-lg">✨</span> 你的理财目标是什么？
         </label>
         <input
           type="text"
           value={goal}
           onChange={(e) => setGoal(e.target.value)}
           placeholder="比如：攒钱去日本旅行 / 存买房首付"
-          className="w-full rounded-2xl border-2 border-[#e7dcc8] bg-white px-4 py-3 text-sm text-[#292524] placeholder:text-[#a8a29e] outline-none transition-all focus:border-[#fbbf24] focus:ring-4 focus:ring-[#fef3c7]"
+          className="w-full rounded-2xl border-2 border-[#f3e2b8] bg-[#fffdf7] px-4 py-3.5 text-sm text-[#4a3b2a] placeholder:text-[#b0a08a] outline-none transition-all focus:border-[#fbbf24] focus:ring-4 focus:ring-[#fef3c7]"
         />
       </motion.div>
 
@@ -143,23 +142,19 @@ export default function InputPage() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.45 }}
         className="mt-1"
       >
         <button
           onClick={handleSubmit}
           disabled={!canSubmit}
-          className={`w-full rounded-full py-4 text-lg font-extrabold transition-all active:scale-95 ${
-            canSubmit
-              ? "bg-[#92400e] text-white shadow-lg shadow-[#d97706]/30 hover:bg-[#78350f]"
-              : "bg-[#e7e5e4] text-[#a8a29e] cursor-not-allowed"
-          }`}
+          className="btn-primary w-full py-4 text-lg"
         >
-          看看我的鹅 🦆
+          <span className="font-hand">看看我的鹅</span> 🦢
         </button>
       </motion.div>
 
-      <p className="text-center text-[10px] text-[#a8a29e]">
+      <p className="text-center text-[10px] text-[#b0a08a]">
         理财有风险，投资需谨慎
       </p>
     </div>

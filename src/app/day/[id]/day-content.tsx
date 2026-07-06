@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import type { DayContent as DayType } from "@/data/journey";
 import QuoteCard from "@/components/QuoteCard";
 import GooseProgress from "@/components/GooseProgress";
+import Mascot from "@/components/Mascot";
 
 interface Props {
   day: DayType;
@@ -54,7 +55,7 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
       <div className="flex flex-col gap-5">
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-1 text-sm text-[#a8a29e]"
+          className="flex w-fit items-center gap-1 text-sm text-[#b0a08a]"
         >
           ← 返回
         </button>
@@ -63,30 +64,30 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
         <motion.div
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="hero-card bg-gradient-to-br from-[#fbbf24] via-[#f59e0b] to-[#d97706] p-8 text-center text-white shadow-lg shadow-[#d97706]/20"
+          className="relative overflow-hidden rounded-[26px] border-2 border-[#f0b445] bg-gradient-to-br from-[#fcd34d] via-[#f59e0b] to-[#d97706] p-6 text-center text-white shadow-[0_10px_24px_rgba(217,119,6,0.25)]"
         >
           <motion.div
             animate={{ y: [0, -12, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="mx-auto mb-3 flex h-24 w-24 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm ring-4 ring-white/30"
+            className="mx-auto mb-2 w-fit"
           >
-            <span className="text-5xl">🦆</span>
+            <Mascot name="celebrate" size={130} shape="circle" priority />
           </motion.div>
-          <h1 className="text-2xl font-extrabold">🎉 恭喜毕业！</h1>
-          <p className="mt-1 text-sm text-white/80">你的鹅已经长大啦！</p>
+          <h1 className="font-hand text-3xl">🎉 恭喜毕业！</h1>
+          <p className="mt-1 text-sm text-white/90">你的鹅已经长大啦！</p>
         </motion.div>
 
         {/* growth report */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="paper-card p-5"
+          className="card-soft p-5"
         >
-          <h2 className="mb-4 font-extrabold text-[#292524]">
-            📊 你的理财成长报告
+          <h2 className="mb-4 flex items-center gap-1.5 font-hand text-lg text-[#78350f]">
+            <span>📊</span> 你的理财成长报告
           </h2>
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             {[
               {
                 label: "匹配方案",
@@ -98,7 +99,7 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
                       : "灵活金鹅计划",
                 color: "text-[#d97706]",
               },
-              { label: "存入金额", value: amount, color: "text-[#292524]" },
+              { label: "存入金额", value: amount, color: "text-[#5c4a35]" },
               { label: "每日金蛋", value: egg, color: "text-[#d97706]" },
               {
                 label: "已学知识",
@@ -108,10 +109,10 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
             ].map((item) => (
               <div
                 key={item.label}
-                className="flex items-center justify-between rounded-2xl bg-[#fefce8] px-4 py-3"
+                className="flex items-center justify-between rounded-2xl border-2 border-[#f3e2b8] bg-[#fffbeb] px-4 py-3"
               >
-                <span className="text-xs text-[#57534e]">{item.label}</span>
-                <span className={`text-sm font-extrabold ${item.color}`}>
+                <span className="text-xs text-[#7c6a55]">{item.label}</span>
+                <span className={`text-sm font-bold ${item.color}`}>
                   {item.value}
                 </span>
               </div>
@@ -127,15 +128,14 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="paper-card p-5 text-center"
+          className="cloud px-5 py-5 text-center"
         >
-          <span className="text-3xl">🐾</span>
-          <p className="mt-2 text-sm leading-relaxed text-[#292524] italic">
+          <p className="font-hand text-base leading-relaxed text-[#78350f]">
             &ldquo;生命中最美好的事情之所以发生，
             <br />
             是因为你做了你不敢做的事情。&rdquo;
           </p>
-          <p className="mt-3 text-xs text-[#57534e]">
+          <p className="mt-3 text-xs leading-relaxed text-[#7c6a55]">
             理财是一辈子的习惯，这 7 天只是一个开始。
             <br />
             继续养鹅，你的金蛋会越下越多！
@@ -151,9 +151,9 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
         >
           <button
             onClick={handleComplete}
-            className="w-full rounded-full bg-[#92400e] py-4 text-lg font-extrabold text-white shadow-lg shadow-[#d97706]/30 transition-all active:scale-95 hover:bg-[#78350f]"
+            className="btn-primary w-full py-4 text-lg"
           >
-            继续养鹅 🦆
+            <span className="font-hand">继续养鹅</span> 🦢
           </button>
           <button
             onClick={() =>
@@ -161,13 +161,13 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
                 "/match?income=8k_12k&savings=5k_20k&goal=%E6%97%85%E8%A1%8C"
               )
             }
-            className="w-full rounded-full border-2 border-[#e7dcc8] bg-white py-3 text-sm font-bold text-[#57534e] transition-all active:scale-95 hover:bg-[#f5f5f4]"
+            className="btn-ghost w-full py-3 text-sm"
           >
             探索其他计划
           </button>
         </motion.div>
 
-        <p className="text-center text-[10px] text-[#a8a29e]">
+        <p className="text-center text-[10px] text-[#b0a08a]">
           理财有风险，投资需谨慎
         </p>
       </div>
@@ -180,14 +180,14 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
       <div className="flex items-center justify-between">
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-1 text-sm text-[#a8a29e]"
+          className="flex items-center gap-1 text-sm text-[#b0a08a]"
         >
           ← 返回
         </button>
         <span
-          className={`rounded-full px-3 py-1 text-[11px] font-extrabold ${
+          className={`rounded-full px-3 py-1 text-[11px] font-bold ${
             day.dayType === "summary"
-              ? "bg-[#f5f5f4] text-[#a8a29e]"
+              ? "bg-[#f0e4c8] text-[#b0a08a]"
               : "bg-[#fef3c7] text-[#92400e]"
           }`}
         >
@@ -196,11 +196,8 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
       </div>
 
       {/* title */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <h1 className="text-xl font-extrabold text-[#292524]">{day.title}</h1>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+        <h1 className="font-hand text-2xl text-[#78350f]">{day.title}</h1>
         <p className="mt-0.5 text-sm text-[#d97706]">{day.subtitle}</p>
       </motion.div>
 
@@ -215,17 +212,17 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
 
       {/* task card */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="paper-card p-5"
+        className="card-soft p-5"
       >
-        <h2 className="mb-3 flex items-center gap-1.5 text-sm font-extrabold text-[#292524]">
+        <h2 className="mb-3 flex items-center gap-1.5 font-hand text-lg text-[#78350f]">
           <span>🎯</span> 今日任务
         </h2>
-        <p className="mb-4 text-sm text-[#57534e]">{day.task}</p>
+        <p className="mb-4 text-sm text-[#7c6a55]">{day.task}</p>
 
-        <div className="space-y-2">
+        <div className="flex flex-col gap-2">
           {day.steps.map((step, i) => (
             <button
               key={i}
@@ -233,7 +230,7 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
               className={`flex w-full items-start gap-3 rounded-2xl p-3.5 text-left text-xs transition-all active:scale-[0.99] ${
                 checkedSteps[i]
                   ? "bg-[#d1fae5] text-[#6b7280] line-through"
-                  : "bg-[#f5efe0] text-[#292524] hover:bg-[#fef3c7]"
+                  : "bg-[#fffbeb] text-[#5c4a35] hover:bg-[#fef3c7]"
               }`}
             >
               <span
@@ -257,7 +254,7 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="ocean-tag flex items-center gap-1.5"
+          className="chip-ocean flex items-center gap-1.5 px-4 py-3 text-xs"
         >
           <span>📱</span> {day.productAction}
         </motion.div>
@@ -265,15 +262,15 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
 
       {/* knowledge */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.35 }}
-        className="rounded-2xl bg-[#fefce8] p-4"
+        className="rounded-2xl border-2 border-[#fcd34d] bg-[#fffbeb] p-4"
       >
-        <h3 className="mb-1 flex items-center gap-1 text-sm font-extrabold text-[#92400e]">
+        <h3 className="mb-1 flex items-center gap-1 font-hand text-base text-[#92400e]">
           <span>💡</span> 理财小知识
         </h3>
-        <p className="text-xs leading-relaxed text-[#57534e]">
+        <p className="text-xs leading-relaxed text-[#7c6a55]">
           {day.knowledgePoint}
         </p>
       </motion.div>
@@ -284,13 +281,9 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="paper-card p-5"
+          className="card-soft p-5"
         >
-          <GooseProgress
-            progress={day.id * 12}
-            dailyEgg={egg}
-            amount={amount}
-          />
+          <GooseProgress progress={day.id * 12} dailyEgg={egg} amount={amount} />
         </motion.div>
       )}
 
@@ -302,24 +295,24 @@ export default function DayContent({ day, plan, amount, egg }: Props) {
       >
         <button
           onClick={handleComplete}
-          disabled={!allChecked}
-          className={`w-full rounded-full py-4 text-lg font-extrabold transition-all active:scale-95 ${
-            allChecked && !completed
-              ? "bg-[#92400e] text-white shadow-lg shadow-[#d97706]/30 hover:bg-[#78350f]"
-              : completed
-                ? "bg-[#d1fae5] text-[#047857]"
-                : "bg-[#e7e5e4] text-[#a8a29e] cursor-not-allowed"
+          disabled={!allChecked || completed}
+          className={`w-full py-4 text-lg ${
+            completed
+              ? "rounded-full bg-[#d1fae5] font-bold text-[#047857]"
+              : "btn-primary"
           }`}
         >
-          {completed
-            ? "✅ 已完成"
-            : allChecked
-              ? "完成今日任务 →"
-              : "请先完成所有步骤"}
+          <span className="font-hand">
+            {completed
+              ? "✅ 已完成"
+              : allChecked
+                ? "完成今日任务 →"
+                : "请先完成所有步骤"}
+          </span>
         </button>
       </motion.div>
 
-      <p className="text-center text-[10px] text-[#a8a29e]">
+      <p className="text-center text-[10px] text-[#b0a08a]">
         理财有风险，投资需谨慎
       </p>
     </div>

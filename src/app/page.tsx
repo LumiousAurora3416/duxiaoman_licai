@@ -4,11 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import PlanModal from "@/components/PlanModal";
+import Mascot from "@/components/Mascot";
 
 const concepts = [
-  { id: "safe_goose", icon: "🦆", label: "养鹅计划", desc: "本金安全增值" },
-  { id: "dream_account", icon: "🎯", label: "梦想账户", desc: "为目标存钱" },
-  { id: "flexible_goose", icon: "💧", label: "灵活金鹅", desc: "应急储备" },
+  { id: "safe_goose", emoji: "🦢", label: "养鹅计划", desc: "本金安全增值" },
+  { id: "dream_account", emoji: "🎯", label: "梦想账户", desc: "为目标存钱" },
+  { id: "flexible_goose", emoji: "💧", label: "灵活金鹅", desc: "应急储备" },
 ];
 
 export default function HomePage() {
@@ -16,103 +17,110 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="flex min-h-[calc(100dvh-6rem)] flex-col items-center justify-between">
-        <div className="flex-1" />
+      <div className="flex min-h-[calc(100dvh-6rem)] flex-col">
+        {/* brand row */}
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-center gap-2 pt-1"
+        >
+          <span className="chip-ocean px-3 py-1 text-[11px]">度小满</span>
+          <span className="text-xs text-[#b0a08a]">×</span>
+          <span className="rounded-[14px] border-2 border-[#fcd34d] bg-[#fffbeb] px-3 py-1 text-[11px] font-bold text-[#b45309]">
+            《小狗钱钱》
+          </span>
+        </motion.div>
 
-        <div className="flex flex-col items-center text-center">
-          {/* goose mascot in a warm circle */}
-          <motion.div
-            initial={{ scale: 0, rotate: -15 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: "spring", stiffness: 180, damping: 14 }}
-            className="mb-4"
-          >
-            <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-[#fbbf24] to-[#d97706] shadow-lg shadow-[#d97706]/20 ring-4 ring-[#fde68a]">
-              <span className="text-5xl">🦆</span>
-            </div>
-          </motion.div>
-
-          {/* headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="mb-1 text-3xl font-extrabold text-[#292524]"
-          >
-            你的理财翻译官
-          </motion.h1>
-
-          {/* subtitle with wavy highlight */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mb-8 max-w-[260px] text-sm leading-relaxed text-[#57534e]"
-          >
-            用 <span className="highlight-wavy font-bold text-[#292524]">《小狗钱钱》</span> 的故事，
+        {/* headline cloud bubble */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="cloud cloud-tail mt-6 px-6 py-6 text-center"
+        >
+          <h1 className="font-hand text-[28px] leading-snug text-[#78350f]">
+            你的{" "}
+            <span className="underline-wavy text-[#1e3a8a]">理财翻译官</span>
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-[#7c6a55]">
+            不用懂任何术语，只需会讲故事
             <br />
-            不用懂术语，也能轻松迈出
-            <span className="highlight-wavy font-bold text-[#292524]">
+            用 <span className="hl font-bold text-[#78350f]">《小狗钱钱》</span>{" "}
+            的故事，
+            <br />
+            轻松迈出{" "}
+            <span className="hl-blue font-bold text-[#1e3a8a]">
               理财第一步
             </span>
-          </motion.p>
+          </p>
+        </motion.div>
 
-          {/* CTA */}
+        {/* mascot */}
+        <motion.div
+          initial={{ scale: 0, rotate: -12 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 160, damping: 13, delay: 0.3 }}
+          className="mt-2 flex justify-center"
+        >
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55 }}
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
-            <Link
-              href="/input"
-              className="inline-flex items-center gap-2 rounded-full bg-[#92400e] px-10 py-4 text-lg font-bold text-white shadow-lg shadow-[#d97706]/30 transition-all active:scale-95 hover:bg-[#78350f]"
-            >
-              开始旅程
-              <span className="text-xl">→</span>
-            </Link>
+            <Mascot name="wave" size={190} priority />
           </motion.div>
+        </motion.div>
 
-          {/* three clickable plan cards */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="mt-10 grid grid-cols-3 gap-3 w-full max-w-xs"
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-2 flex justify-center"
+        >
+          <Link
+            href="/input"
+            className="btn-primary inline-flex items-center gap-2 px-12 py-4 text-lg"
           >
+            <span className="font-hand">开始旅程</span>
+            <span className="text-xl">→</span>
+          </Link>
+        </motion.div>
+
+        {/* three plan cards */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+          className="mt-8"
+        >
+          <p className="mb-3 text-center text-xs text-[#b0a08a]">
+            三个陪你成长的小计划 · 点击了解
+          </p>
+          <div className="grid grid-cols-3 gap-3">
             {concepts.map((c, i) => (
               <motion.button
                 key={c.id}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.85 + i * 0.1 }}
+                transition={{ delay: 0.8 + i * 0.1 }}
                 whileTap={{ scale: 0.93 }}
                 onClick={() => setActivePlan(c.id)}
-                className="paper-card flex flex-col items-center gap-1.5 px-2 py-4 transition-all hover:shadow-md active:shadow-sm"
+                className="card-soft flex flex-col items-center gap-1.5 px-2 py-4 transition-transform hover:-translate-y-0.5"
               >
-                <span className="text-2xl">{c.icon}</span>
-                <span className="text-xs font-bold text-[#292524]">
+                <span className="text-3xl">{c.emoji}</span>
+                <span className="font-hand text-sm text-[#78350f]">
                   {c.label}
                 </span>
-                <span className="text-[10px] text-[#a8a29e]">{c.desc}</span>
+                <span className="text-[10px] leading-tight text-[#b0a08a]">
+                  {c.desc}
+                </span>
               </motion.button>
             ))}
-          </motion.div>
+          </div>
+        </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.3 }}
-            className="mt-3 text-[10px] text-[#a8a29e]"
-          >
-            👆 点击了解每个计划
-          </motion.p>
-        </div>
-
-        {/* footer */}
-        <div className="mt-auto pt-8">
-          <p className="text-[10px] text-[#a8a29e]">
-            理财有风险，投资需谨慎
-          </p>
+        <div className="mt-auto pt-8 text-center">
+          <p className="text-[10px] text-[#b0a08a]">理财有风险，投资需谨慎</p>
         </div>
       </div>
 

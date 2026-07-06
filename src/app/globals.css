@@ -1,105 +1,168 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-paper: #f5efe0;
-  --color-card: #fffcf5;
+  --color-paper: #fdf6e3;
+  --color-card: #fffdf7;
   --color-warm: #fbbf24;
   --color-warm-dark: #d97706;
-  --color-warm-darker: #92400e;
-  --color-ink: #292524;
-  --color-ink-soft: #57534e;
-  --color-ink-muted: #a8a29e;
-  --color-ocean: #1e40af;
+  --color-warm-darker: #b45309;
+  --color-warm-deepest: #92400e;
+  --color-cream: #fef3c7;
+  --color-ink: #4a3b2a;
+  --color-ink-soft: #7c6a55;
+  --color-ink-muted: #b0a08a;
+  --color-ocean: #1e3a8a;
+  --color-ocean-mid: #2563eb;
   --color-ocean-light: #dbeafe;
-  --color-growth: #10b981;
+  --color-growth: #0f9d6e;
   --color-growth-light: #d1fae5;
-  --font-hand: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+  --font-hand: var(--font-kuaile), "ZCOOL KuaiLe", "Noto Sans SC", ui-sans-serif,
+    system-ui, sans-serif;
+  --font-sans: var(--font-noto), "Noto Sans SC", ui-sans-serif, system-ui,
+    sans-serif;
+}
+
+html {
+  background: #f0e4c8;
 }
 
 body {
-  background: #d6c9b3;
-  color: #292524;
-  font-family: var(--font-hand);
+  color: #4a3b2a;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* ── Hand-drawn highlight: wavy amber underline ── */
-.highlight-wavy {
+/* headings & playful copy use the rounded hand-drawn Chinese font */
+.font-hand {
+  font-family: var(--font-hand);
+  letter-spacing: 0.01em;
+}
+
+/* ── warm paper texture applied to the mobile canvas ── */
+.paper-bg {
+  background-color: #fffbf0;
+  background-image:
+    radial-gradient(rgba(217, 119, 6, 0.05) 1px, transparent 1px),
+    radial-gradient(rgba(217, 119, 6, 0.04) 1px, transparent 1px);
+  background-position:
+    0 0,
+    12px 12px;
+  background-size: 24px 24px;
+}
+
+/* ── Hand-drawn highlight: solid amber marker swipe ── */
+.hl {
+  background: linear-gradient(180deg, transparent 55%, #fde68a 55%);
+  padding: 0 2px;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.hl-blue {
+  background: linear-gradient(180deg, transparent 55%, #bfdbfe 55%);
+  padding: 0 2px;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* ── Hand-drawn wavy underline ── */
+.underline-wavy {
   position: relative;
   display: inline-block;
 }
-.highlight-wavy::after {
+.underline-wavy::after {
   content: "";
   position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 8px;
-  background: url("data:image/svg+xml,%3Csvg width='100' height='8' viewBox='0 0 100 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 4 Q12.5 0 25 4 T50 4 T75 4 T100 4' stroke='%23fbbf24' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+  bottom: -3px;
+  left: -2px;
+  right: -2px;
+  height: 7px;
+  background: url("data:image/svg+xml,%3Csvg width='120' height='7' viewBox='0 0 120 7' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 4 Q15 0 30 4 T60 4 T90 4 T120 4' stroke='%23d97706' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
     repeat-x bottom;
-  background-size: 50px 8px;
-  opacity: 0.8;
+  background-size: 60px 7px;
 }
 
-/* ── Paper-texture card ── */
-.paper-card {
-  background: #fffcf5;
-  border: 2.5px solid #e7dcc8;
-  border-radius: 28px;
+/* ── Soft hand-drawn card ── */
+.card-soft {
+  background: #fffdf7;
+  border: 2.5px solid #f3e2b8;
+  border-radius: 26px;
   box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  position: relative;
+    0 6px 18px rgba(180, 120, 40, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
-/* ── Decorative dot corner ── */
-.paper-card::before {
-  content: "✦";
-  position: absolute;
-  top: -6px;
-  left: 16px;
-  font-size: 10px;
-  color: #d97706;
-  opacity: 0.5;
-}
-
-/* ── Gradient hero card ── */
-.hero-card {
-  border-radius: 28px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* ── Cloud dialog bubble ── */
-.dialog-bubble {
-  background: #fefce8;
-  border: 2.5px solid #fde68a;
-  border-radius: 24px;
+/* ── Cloud dialog bubble (blobby, hand-drawn) ── */
+.cloud {
+  background: #fffbeb;
+  border: 2.5px solid #fcd34d;
+  border-radius: 40px 34px 42px 30px;
+  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.08);
   position: relative;
 }
-.dialog-bubble::after {
+.cloud-tail::after {
   content: "";
   position: absolute;
-  bottom: -10px;
-  left: 32px;
-  width: 16px;
-  height: 16px;
-  background: #fefce8;
-  border-right: 2.5px solid #fde68a;
-  border-bottom: 2.5px solid #fde68a;
-  transform: rotate(45deg);
-  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  bottom: -9px;
+  left: 40px;
+  width: 18px;
+  height: 18px;
+  background: #fffbeb;
+  border-right: 2.5px solid #fcd34d;
+  border-bottom: 2.5px solid #fcd34d;
+  border-bottom-right-radius: 6px;
+  transform: rotate(52deg);
 }
 
-/* ── Ocean blue tag ── */
-.ocean-tag {
+/* ── Ocean blue chip (mask color) ── */
+.chip-ocean {
   background: #dbeafe;
-  color: #1e40af;
-  border-radius: 12px;
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: 600;
+  color: #1e3a8a;
+  border-radius: 14px;
+  border: 2px solid #bfdbfe;
+  font-weight: 700;
+}
+
+/* ── Primary chunky CTA ── */
+.btn-primary {
+  background: #b45309;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow:
+    0 6px 0 #7c3d08,
+    0 10px 18px rgba(180, 83, 9, 0.28);
+  transition: all 0.12s ease;
+}
+.btn-primary:hover {
+  background: #a34a08;
+}
+.btn-primary:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px 0 #7c3d08,
+    0 4px 10px rgba(180, 83, 9, 0.24);
+}
+.btn-primary:disabled {
+  background: #e7dcc8;
+  color: #b0a08a;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ── Secondary outline CTA ── */
+.btn-ghost {
+  background: #fffdf7;
+  color: #7c6a55;
+  border: 2.5px solid #f3e2b8;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: all 0.12s ease;
+}
+.btn-ghost:active {
+  transform: scale(0.97);
 }
 
 /* ── Step circle ── */
@@ -107,20 +170,25 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   flex-shrink: 0;
 }
 .step-circle--incomplete {
-  border: 2.5px solid #d6d3d1;
-  color: #a8a29e;
+  border: 2.5px solid #e6d3a8;
+  color: #b0a08a;
 }
 .step-circle--complete {
-  background: #10b981;
+  background: #0f9d6e;
   color: white;
+}
+
+/* ── Dashed timeline connector ── */
+.dash-line {
+  border-left: 2.5px dashed #e6d3a8;
 }
 
 /* ── Scrollbar ── */
@@ -131,6 +199,6 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d6d3d1;
+  background: #e6d3a8;
   border-radius: 2px;
 }

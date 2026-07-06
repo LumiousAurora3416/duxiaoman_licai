@@ -5,12 +5,15 @@ interface QuoteCardProps {
 
 export default function QuoteCard({ quote, author }: QuoteCardProps) {
   return (
-    <div className="dialog-bubble p-5 pt-6">
-      <p className="relative z-10 mb-2 text-sm leading-relaxed text-[#292524] italic">
+    <div className="cloud cloud-tail px-5 py-5">
+      <span className="mb-1 block font-hand text-2xl leading-none text-[#fcd34d]">
+        &ldquo;
+      </span>
+      <p className="font-hand text-base leading-relaxed text-[#78350f]">
         {quote}
       </p>
-      <p className="text-right text-xs font-bold text-[#d97706]">
-        — {author}
+      <p className="mt-2 text-right text-xs font-bold text-[#d97706]">
+        —— {author}
       </p>
     </div>
   );

@@ -14,7 +14,7 @@ interface PlanDetail {
 
 const plans: Record<string, PlanDetail> = {
   safe_goose: {
-    icon: "🦆",
+    icon: "🦢",
     label: "养鹅计划",
     desc: "本金安全增值",
     story:
@@ -66,7 +66,7 @@ export default function PlanModal({ planId, onClose }: Props) {
             exit={{ opacity: 0, scale: 0.85, y: 30 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-sm paper-card overflow-hidden p-0"
+            className="w-full max-w-sm card-soft overflow-hidden p-0"
           >
             {/* gradient top */}
             <div
@@ -75,7 +75,7 @@ export default function PlanModal({ planId, onClose }: Props) {
               <div className="mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
                 <span className="text-3xl">{plan.icon}</span>
               </div>
-              <h2 className="text-lg font-extrabold">{plan.label}</h2>
+              <h2 className="font-hand text-xl">{plan.label}</h2>
               <p className="text-sm text-white/80">{plan.desc}</p>
             </div>
 
@@ -106,14 +106,11 @@ export default function PlanModal({ planId, onClose }: Props) {
               <div className="flex flex-col gap-2">
                 <Link
                   href="/input"
-                  className="w-full rounded-full bg-[#92400e] py-3.5 text-center text-sm font-extrabold text-white shadow-md shadow-[#d97706]/30 transition-all active:scale-95 hover:bg-[#78350f]"
+                  className="btn-primary w-full py-3.5 text-center text-sm"
                 >
                   开始这个计划
                 </Link>
-                <button
-                  onClick={onClose}
-                  className="w-full rounded-full border-2 border-[#e7dcc8] bg-white py-3 text-sm font-bold text-[#57534e] transition-all active:scale-95 hover:bg-[#f5f5f4]"
-                >
+                <button onClick={onClose} className="btn-ghost w-full py-3 text-sm">
                   再看看
                 </button>
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Mascot from "@/components/Mascot";
 
 interface GooseProgressProps {
   progress: number;
@@ -13,57 +14,59 @@ export default function GooseProgress({
   dailyEgg,
   amount,
 }: GooseProgressProps) {
+  const clamped = Math.min(Math.max(progress, 0), 100);
+
   return (
     <div className="w-full space-y-3">
-      {/* goose */}
-      <div className="relative flex items-center justify-between px-2">
+      {/* goose walking along the track */}
+      <div className="relative h-16">
         <motion.div
-          className="flex flex-col items-center"
-          animate={{ x: `${Math.min(progress, 85)}%` }}
+          className="absolute bottom-0 flex flex-col items-center"
+          initial={{ left: 0 }}
+          animate={{ left: `calc(${Math.min(clamped, 82)}%)` }}
           transition={{ type: "spring", stiffness: 50, damping: 20 }}
         >
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#fefce8] shadow-md ring-2 ring-[#fde68a]">
-            <span className="text-2xl">🦆</span>
-          </div>
-          <span className="mt-1 text-[10px] font-extrabold text-[#92400e]">
-            你的鹅
-          </span>
-        </motion.div>
-        {progress > 30 && (
           <motion.div
-            className="absolute top-0 right-4"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity }}
+          >
+            <Mascot name="goose" size={54} shape="circle" />
+          </motion.div>
+        </motion.div>
+        {clamped > 28 && (
+          <motion.span
+            className="absolute -top-1 right-2 text-2xl"
+            initial={{ opacity: 0, scale: 0, rotate: -20 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ delay: 0.8, type: "spring" }}
           >
-            <span className="text-2xl">🥚</span>
-          </motion.div>
+            🥚
+          </motion.span>
         )}
       </div>
 
       {/* track */}
-      <div className="relative h-6 w-full overflow-hidden rounded-full bg-[#fef3c7] shadow-inner">
+      <div className="relative h-6 w-full overflow-hidden rounded-full bg-[#fef3c7] shadow-[inset_0_2px_4px_rgba(180,120,40,0.15)]">
         <motion.div
           className="h-full rounded-full bg-gradient-to-r from-[#fbbf24] to-[#d97706]"
           initial={{ width: 0 }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
+          animate={{ width: `${clamped}%` }}
+          transition={{ duration: 1.4, ease: "easeOut" }}
         />
-        {progress > 20 && (
-          <motion.div
+        {clamped > 15 && (
+          <motion.span
             className="absolute top-1/2 -translate-y-1/2 text-xs"
-            style={{ left: `calc(${progress}% - 8px)` }}
-            initial={{ opacity: 0 }}
+            style={{ left: `calc(${clamped}% - 10px)` }}
             animate={{ opacity: [0, 1, 0] }}
-            transition={{ duration: 1, repeat: Infinity, repeatDelay: 2 }}
+            transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 1.8 }}
           >
             ✨
-          </motion.div>
+          </motion.span>
         )}
       </div>
 
       {/* stats */}
-      <div className="flex justify-between text-xs text-[#57534e]">
+      <div className="flex justify-between text-xs text-[#7c6a55]">
         <span>
           鹅的体重：
           <strong className="text-[#92400e]">{amount || "0 元"}</strong>
